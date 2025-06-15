@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <_LastSelectedProfileId>C:\Users\Canelo\source\repos\PrestamosApp\PrestamosApp\Properties\PublishProfiles\FolderProfile.pubxml</_LastSelectedProfileId>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Update="LoansForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="UserControls\UpdateLoanControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="UserControls\LoansRecordControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="UserControls\HomeControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="UserControls\PaymentControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="UserControls\AddLoanControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+  </ItemGroup>
+</Project>
