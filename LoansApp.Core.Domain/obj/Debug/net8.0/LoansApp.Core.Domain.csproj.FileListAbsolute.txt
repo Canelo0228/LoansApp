@@ -1,0 +1,12 @@
+C:\Users\Canelo\source\repos\PrestamosApp\LoansApp.Core.Domain\bin\Debug\net8.0\LoansApp.Core.Domain.deps.json
+C:\Users\Canelo\source\repos\PrestamosApp\LoansApp.Core.Domain\bin\Debug\net8.0\LoansApp.Core.Domain.dll
+C:\Users\Canelo\source\repos\PrestamosApp\LoansApp.Core.Domain\bin\Debug\net8.0\LoansApp.Core.Domain.pdb
+C:\Users\Canelo\source\repos\PrestamosApp\LoansApp.Core.Domain\obj\Debug\net8.0\LoansApp.Core.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Canelo\source\repos\PrestamosApp\LoansApp.Core.Domain\obj\Debug\net8.0\LoansApp.Core.Domain.AssemblyInfoInputs.cache
+C:\Users\Canelo\source\repos\PrestamosApp\LoansApp.Core.Domain\obj\Debug\net8.0\LoansApp.Core.Domain.AssemblyInfo.cs
+C:\Users\Canelo\source\repos\PrestamosApp\LoansApp.Core.Domain\obj\Debug\net8.0\LoansApp.Core.Domain.csproj.CoreCompileInputs.cache
+C:\Users\Canelo\source\repos\PrestamosApp\LoansApp.Core.Domain\obj\Debug\net8.0\LoansApp.Core.Domain.sourcelink.json
+C:\Users\Canelo\source\repos\PrestamosApp\LoansApp.Core.Domain\obj\Debug\net8.0\LoansApp.Core.Domain.dll
+C:\Users\Canelo\source\repos\PrestamosApp\LoansApp.Core.Domain\obj\Debug\net8.0\refint\LoansApp.Core.Domain.dll
+C:\Users\Canelo\source\repos\PrestamosApp\LoansApp.Core.Domain\obj\Debug\net8.0\LoansApp.Core.Domain.pdb
+C:\Users\Canelo\source\repos\PrestamosApp\LoansApp.Core.Domain\obj\Debug\net8.0\ref\LoansApp.Core.Domain.dll
