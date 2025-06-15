@@ -12,6 +12,5 @@ namespace LoansApp.Core.Application.DTOs.Payment
 
 
         public int LoanID { get; set; }
-        public Domain.Entities.Loan Loan { get; set; }
     }
 }

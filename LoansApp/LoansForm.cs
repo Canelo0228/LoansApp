@@ -52,7 +52,7 @@ namespace LoansApp
             }
             else
             {
-                ShowWarning("Select a Loan to Update");
+                return;
             }
         }
 
@@ -66,7 +66,7 @@ namespace LoansApp
             }
             else
             {
-                ShowWarning("Add a Loan to apply a payment for.");
+                return;
             }
         }
 

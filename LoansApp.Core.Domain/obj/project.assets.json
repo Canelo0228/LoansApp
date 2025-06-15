@@ -14,11 +14,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Canelo\\source\\repos\\PrestamosApp\\LoansApp.Core.Domain\\LoansApp.Core.Domain.csproj",
+      "projectUniqueName": "C:\\Users\\Canelo\\source\\repos\\LoansApp\\LoansApp.Core.Domain\\LoansApp.Core.Domain.csproj",
       "projectName": "LoansApp.Core.Domain",
-      "projectPath": "C:\\Users\\Canelo\\source\\repos\\PrestamosApp\\LoansApp.Core.Domain\\LoansApp.Core.Domain.csproj",
+      "projectPath": "C:\\Users\\Canelo\\source\\repos\\LoansApp\\LoansApp.Core.Domain\\LoansApp.Core.Domain.csproj",
       "packagesPath": "C:\\Users\\Canelo\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Canelo\\source\\repos\\PrestamosApp\\LoansApp.Core.Domain\\obj\\",
+      "outputPath": "C:\\Users\\Canelo\\source\\repos\\LoansApp\\LoansApp.Core.Domain\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

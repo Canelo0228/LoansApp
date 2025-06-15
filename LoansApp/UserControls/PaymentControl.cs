@@ -1,8 +1,6 @@
 ﻿using LoansApp.Core.Application.DTOs.Loan;
 using LoansApp.Core.Application.DTOs.Payment;
-using LoansApp.Core.Application.DTOs.Record;
 using LoansApp.Core.Application.Interfaces.Services;
-using LoansApp.Core.Domain.Entities;
 
 namespace LoansApp.UserControls
 {
@@ -11,7 +9,6 @@ namespace LoansApp.UserControls
         private LoansForm _form;
         private LoansRecordControl historial;
         private readonly IPaymentService _paymentService;
-        private readonly IRecordService _recordService;
         private readonly ILoanService _loanService;
         private List<ViewLoan> _loans = new();
         private List<ViewPayment> _payments = new();
@@ -36,7 +33,6 @@ namespace LoansApp.UserControls
         {
             InitializeComponent();
             _form = form;
-            _recordService = recordService;
             historial = new(recordService);
             _paymentService = paymentService;
             _loanService = loanService;
@@ -63,83 +59,28 @@ namespace LoansApp.UserControls
 
         private async void AddButton_Click(object sender, EventArgs e)
         {
-             _loans = await _loanService.GetAllAsync();
-            if (string.IsNullOrWhiteSpace(Day.Text) ||
-                string.IsNullOrWhiteSpace(Month.Text) ||
-                string.IsNullOrWhiteSpace(Year.Text))
-            {
-                MessageBox.Show("All the fields are required.");
-                return;
-            }
-            Loan loan = new()
-            {
-                ID = _loans[_currentIndex].ID,
-                Name = _loans[_currentIndex].Name,
-                Interest = _loans[_currentIndex].Interest,
-                Capital = _loans[_currentIndex].Capital,
-                LoanBalance = _loans[_currentIndex].LoanBalance,
-                Number = _loans[_currentIndex].Number,
-                PayDay = _loans[_currentIndex].PayDay,
-                RemainingFees = _loans[_currentIndex].RemainingFees,
-                TotalIncome = _loans[_currentIndex].TotalIncome,
-                Value = _loans[_currentIndex].Value
-            };
-            SaveLoan saveLoan = new()
-            {
-                ID = loan.ID,
-                Name = loan.Name,
-                Interest = loan.Interest,
-                Capital = loan.Capital,
-                LoanBalance = (int.Parse(loan.LoanBalance) - int.Parse(loan.Capital)).ToString(),
-                Number = loan.Number,
-                PayDay = loan.PayDay,
-                RemainingFees = (int.Parse(loan.RemainingFees) - 1).ToString(),
-                TotalIncome =   loan.TotalIncome,
-                Value = loan.Value
-            };
             SavePayment savePayment = new()
             {
+                LoanID = _loans[_currentIndex].ID,
+                Amount = int.Parse(Income.Text.Trim()),
                 Day = Day.Text,
                 Month = Month.Text,
-                Year = Year.Text,
-                Amount = int.Parse(Income.Text.Trim()),
-                MonthDay = $"{Day.Text} / {Month.Text}",
-                LoanID = loan.ID,
-                Loan = loan
-            };
-            _payments = await _paymentService.GetByLoanIdAsync(_loans[_currentIndex].ID);
-            SaveRecord saveRecord = new()
-            {
-                Name = loan.Name,
-                loanNumber = loan.Number,
-                EndDate = DateTime.Now.ToShortDateString(),
-                MonthlyIncome = loan.TotalIncome,
-                MonthlyInterest = loan.Interest,
-                MonthlyCapital = loan.Capital,
-                LoanValue = loan.Value,
-                TotalInterestIncomes = (int.Parse(loan.Interest) * (_payments.Count() + 1)).ToString()
+                Year = Year.Text
             };
             try
             {
-                if ( (int.Parse(loan.RemainingFees) <= 1) && (int.Parse(saveLoan.LoanBalance) <= int.Parse(loan.Capital)) )
+                var lastPayment = await _paymentService.ApplyPaymentAsync(savePayment);
+                if (lastPayment)
                 {
-                    await _paymentService.AddAsync(savePayment, saveLoan);
-                    await _recordService.AddAsync(saveRecord);
-                    await _loanService.DeleteAsync(loan.ID);
-                    MessageBox.Show("Last payment was succesfully applied to the loan.");
+                    MessageBox.Show("Payment applied successfully.");
                     await _form.ShowView(historial);
                 }
-                else
-                {
-                    await _paymentService.AddAsync(savePayment, saveLoan);
-                    MessageBox.Show("Pay was succesfully applied to the loan.");
-                    GetData(_loans[_currentIndex].ID);
-                }
-                feesLeft.Text = saveLoan.RemainingFees;
+                MessageBox.Show("Payment applied successfully.");
+                GetData(_loans[_currentIndex].ID);
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"An error ocurred while applying the pay to the loan: {ex.Message}");
+                MessageBox.Show($"An error ocurred: {ex.Message}");
                 return;
             }
         }

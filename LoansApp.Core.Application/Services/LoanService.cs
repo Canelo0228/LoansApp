@@ -1,4 +1,5 @@
-﻿using LoansApp.Core.Application.DTOs.Loan;
+﻿using AutoMapper;
+using LoansApp.Core.Application.DTOs.Loan;
 using LoansApp.Core.Application.Interfaces.Repositories;
 using LoansApp.Core.Application.Interfaces.Services;
 using LoansApp.Core.Domain.Entities;
@@ -7,93 +8,15 @@ using System.Linq.Expressions;
 
 namespace LoansApp.Core.Application.Services
 {
-    public class LoanService : ILoanService
+    public class LoanService : GenericService<SaveLoan, ViewLoan, Loan>, ILoanService
     {
         private readonly ILoanRepository _loanRepository;
+        private readonly IMapper _mapper;
 
-        public LoanService(ILoanRepository loanRepository)
+        public LoanService(ILoanRepository loanRepository, IMapper mapper) : base(loanRepository, mapper)
         {
             _loanRepository = loanRepository;
-        }
-
-        public async Task AddAsync(SaveLoan saveLoan)
-        {
-            Loan loan = new()
-            {
-                Name = saveLoan.Name,
-                Number = saveLoan.Number,
-                Capital = saveLoan.Capital,
-                Interest = saveLoan.Interest,
-                RemainingFees = saveLoan.RemainingFees,
-                PayDay = saveLoan.PayDay,
-                TotalIncome = saveLoan.TotalIncome,
-                LoanBalance = saveLoan.LoanBalance,
-                Value = saveLoan.Value,
-            };
-            await _loanRepository.AddAsync(loan);
-        }
-
-        public async Task UpdateAsync(SaveLoan saveLoan, int id)
-        {
-            Loan entity = new()
-            {
-                ID = saveLoan.ID,
-                Name = saveLoan.Name,
-                Number = saveLoan.Number,
-                Capital = saveLoan.Capital,
-                Interest = saveLoan.Interest,
-                RemainingFees = saveLoan.RemainingFees,
-                PayDay = saveLoan.PayDay,
-                TotalIncome = saveLoan.TotalIncome,
-                LoanBalance = saveLoan.LoanBalance,
-                Value = saveLoan.Value,
-            };
-            await _loanRepository.UpdateAsync(entity, id);
-        }
-
-        public async Task DeleteAsync(int id)
-        {
-            var loan = await _loanRepository.GetByIdAsync(id);
-            await _loanRepository.DeleteAsync(loan);
-        }
-
-        public async Task<List<ViewLoan>> GetAllAsync()
-        {
-            var loanList = await _loanRepository.GetAllAsync();
-
-            return loanList.Select(loan => new ViewLoan
-            {
-                ID = loan.ID,
-                Name = loan.Name,
-                Number = loan.Number,
-                Capital = loan.Capital,
-                Interest = loan.Interest,
-                RemainingFees = loan.RemainingFees,
-                PayDay = loan.PayDay,
-                TotalIncome = loan.TotalIncome,
-                LoanBalance = loan.LoanBalance,
-                Value = loan.Value,
-            }).ToList();
-        }
-
-        public async Task<ViewLoan> GetByIdAsync(int id)
-        {
-            var loan = await _loanRepository.GetByIdAsync(id);
-
-            ViewLoan viewLoan = new()
-            {
-                Name = loan.Name,
-                Number = loan.Number,
-                Capital = loan.Capital,
-                Interest = loan.Interest,
-                RemainingFees = loan.RemainingFees,
-                PayDay = loan.PayDay,
-                TotalIncome = loan.TotalIncome,
-                LoanBalance = loan.LoanBalance,
-                Value = loan.Value,
-            };
-
-            return viewLoan;
+            _mapper = mapper;
         }
 
         public async Task<List<ViewLoan>> GetAllWithFilter(string property, string value)
@@ -106,19 +29,8 @@ namespace LoansApp.Core.Application.Services
             var containsCall = Expression.Call(propertyAccess, containsMethod, valueExpression);
             var lambda = Expression.Lambda<Func<Loan, bool>>(containsCall, parameter);
             var filteredLoans = await _loanRepository.GetAllAsync(lambda);
-            return filteredLoans.Select(loan => new ViewLoan()
-            {
-                ID = loan.ID,
-                Name = loan.Name,
-                Number = loan.Number,
-                Capital = loan.Capital,
-                Interest = loan.Interest,
-                PayDay = loan.PayDay,
-                RemainingFees = loan.RemainingFees,
-                Value = loan.Value,
-                LoanBalance = loan.LoanBalance,
-                TotalIncome = loan.TotalIncome,
-            }).ToList();
+
+            return _mapper.Map<List<ViewLoan>>(filteredLoans);
         }
 
         public DataTable MapLoansToDataTable(List<ViewLoan> loans)

@@ -11,6 +11,5 @@
         public string MonthlyCapital { get; set; }
         public string LoanValue { get; set; }
         public string TotalInterestIncomes { get; set; }
-
     }
 }
