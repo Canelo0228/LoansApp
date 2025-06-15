@@ -1,14 +1,11 @@
 ﻿using LoansApp.Core.Application.DTOs.Record;
+using LoansApp.Core.Domain.Entities;
 using System.Data;
 
 namespace LoansApp.Core.Application.Interfaces.Services
 {
-    public interface IRecordService
+    public interface IRecordService : IGenericService<SaveRecord, ViewRecord, Record>
     {
-        Task AddAsync(SaveRecord saveDTO);
-
-        Task<List<ViewRecord>> GetAllAsync();
-
         DataTable MapRecordsToDataTable(List<ViewRecord> entities);
     }
 }
