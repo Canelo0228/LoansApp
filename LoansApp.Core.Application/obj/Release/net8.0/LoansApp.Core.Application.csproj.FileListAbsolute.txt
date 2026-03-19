@@ -1,0 +1,16 @@
+C:\Users\Canelo\source\repos\LoansApp\LoansApp.Core.Application\bin\Release\net8.0\LoansApp.Core.Application.deps.json
+C:\Users\Canelo\source\repos\LoansApp\LoansApp.Core.Application\bin\Release\net8.0\LoansApp.Core.Application.dll
+C:\Users\Canelo\source\repos\LoansApp\LoansApp.Core.Application\bin\Release\net8.0\LoansApp.Core.Application.pdb
+C:\Users\Canelo\source\repos\LoansApp\LoansApp.Core.Application\bin\Release\net8.0\LoansApp.Core.Domain.dll
+C:\Users\Canelo\source\repos\LoansApp\LoansApp.Core.Application\bin\Release\net8.0\LoansApp.Core.Domain.pdb
+C:\Users\Canelo\source\repos\LoansApp\LoansApp.Core.Application\obj\Release\net8.0\LoansApp.Core.Application.csproj.AssemblyReference.cache
+C:\Users\Canelo\source\repos\LoansApp\LoansApp.Core.Application\obj\Release\net8.0\LoansApp.Core.Application.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Canelo\source\repos\LoansApp\LoansApp.Core.Application\obj\Release\net8.0\LoansApp.Core.Application.AssemblyInfoInputs.cache
+C:\Users\Canelo\source\repos\LoansApp\LoansApp.Core.Application\obj\Release\net8.0\LoansApp.Core.Application.AssemblyInfo.cs
+C:\Users\Canelo\source\repos\LoansApp\LoansApp.Core.Application\obj\Release\net8.0\LoansApp.Core.Application.csproj.CoreCompileInputs.cache
+C:\Users\Canelo\source\repos\LoansApp\LoansApp.Core.Application\obj\Release\net8.0\LoansApp.Core.Application.sourcelink.json
+C:\Users\Canelo\source\repos\LoansApp\LoansApp.Core.Application\obj\Release\net8.0\LoansApp.8A2B7E65.Up2Date
+C:\Users\Canelo\source\repos\LoansApp\LoansApp.Core.Application\obj\Release\net8.0\LoansApp.Core.Application.dll
+C:\Users\Canelo\source\repos\LoansApp\LoansApp.Core.Application\obj\Release\net8.0\refint\LoansApp.Core.Application.dll
+C:\Users\Canelo\source\repos\LoansApp\LoansApp.Core.Application\obj\Release\net8.0\LoansApp.Core.Application.pdb
+C:\Users\Canelo\source\repos\LoansApp\LoansApp.Core.Application\obj\Release\net8.0\ref\LoansApp.Core.Application.dll

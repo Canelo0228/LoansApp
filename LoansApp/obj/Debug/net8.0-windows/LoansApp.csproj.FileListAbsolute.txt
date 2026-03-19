@@ -212,7 +212,6 @@ C:\Users\Canelo\source\repos\LoansApp\LoansApp\bin\Debug\net8.0-windows\System.C
 C:\Users\Canelo\source\repos\LoansApp\LoansApp\bin\Debug\net8.0-windows\System.Composition.Hosting.dll
 C:\Users\Canelo\source\repos\LoansApp\LoansApp\bin\Debug\net8.0-windows\System.Composition.Runtime.dll
 C:\Users\Canelo\source\repos\LoansApp\LoansApp\bin\Debug\net8.0-windows\System.Composition.TypedParts.dll
-C:\Users\Canelo\source\repos\LoansApp\LoansApp\bin\Debug\net8.0-windows\System.Diagnostics.EventLog.dll
 C:\Users\Canelo\source\repos\LoansApp\LoansApp\bin\Debug\net8.0-windows\System.IO.Pipelines.dll
 C:\Users\Canelo\source\repos\LoansApp\LoansApp\bin\Debug\net8.0-windows\cs\Microsoft.CodeAnalysis.resources.dll
 C:\Users\Canelo\source\repos\LoansApp\LoansApp\bin\Debug\net8.0-windows\de\Microsoft.CodeAnalysis.resources.dll
@@ -286,7 +285,6 @@ C:\Users\Canelo\source\repos\LoansApp\LoansApp\bin\Debug\net8.0-windows\runtimes
 C:\Users\Canelo\source\repos\LoansApp\LoansApp\bin\Debug\net8.0-windows\runtimes\win-arm64\native\e_sqlite3.dll
 C:\Users\Canelo\source\repos\LoansApp\LoansApp\bin\Debug\net8.0-windows\runtimes\win-x64\native\e_sqlite3.dll
 C:\Users\Canelo\source\repos\LoansApp\LoansApp\bin\Debug\net8.0-windows\runtimes\win-x86\native\e_sqlite3.dll
-C:\Users\Canelo\source\repos\LoansApp\LoansApp\bin\Debug\net8.0-windows\runtimes\win\lib\net8.0\System.Diagnostics.EventLog.dll
 C:\Users\Canelo\source\repos\LoansApp\LoansApp\bin\Debug\net8.0-windows\LoansApp.Core.Application.dll
 C:\Users\Canelo\source\repos\LoansApp\LoansApp\bin\Debug\net8.0-windows\LoansApp.Core.Domain.dll
 C:\Users\Canelo\source\repos\LoansApp\LoansApp\bin\Debug\net8.0-windows\LoansApp.Infrastructure.Persistence.dll
