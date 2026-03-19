@@ -1,3 +1,7 @@
+![.NET](https://img.shields.io/badge/.NET-8.0-blue)
+![WinForms](https://img.shields.io/badge/UI-WinForms-green)
+![SQLite](https://img.shields.io/badge/DB-SQLite-lightgrey)
+
 # 💰 LoansApp
 
 Aplicación de escritorio desarrollada en .NET 8 para la gestión de préstamos, diseñada bajo principios de Clean Architecture y orientada a simular un sistema real utilizado en entornos financieros.
@@ -10,6 +14,15 @@ LoansApp es una solución completa para la administración de clientes, préstam
 El sistema permite gestionar el ciclo de vida de un préstamo, incluyendo cálculos automáticos de intereses, balances y control de estados.
 
 Una de sus principales ventajas es que utiliza una base de datos local (SQLite), lo que permite su distribución como aplicación portable sin necesidad de instalaciones complejas.
+
+---
+
+## 🧠 Decisiones técnicas
+
+- Se utilizó SQLite para permitir portabilidad sin necesidad de instalar un servidor de base de datos
+- Se implementó Clean Architecture para desacoplar la lógica de negocio de la infraestructura
+- Se utilizó Entity Framework Core para simplificar el acceso a datos
+- Se aplicó inyección de dependencias para mejorar la testabilidad y mantenibilidad
 
 ---
 
@@ -152,14 +165,19 @@ Este archivo puede ejecutarse en cualquier máquina Windows sin necesidad de ins
 
 ## 📸 Capturas de pantalla
 
+### 🏠 Pantalla principal
 ![Descripción](Screenshots/Home.png)
 
+### 💳 Registro de nuevos prestamos
 ![Descripción](Screenshots/Add.png)
 
+### 💳 Actualizacion de prestamos
 ![Descripción](Screenshots/Update.png)
 
+### 💳 Registro de pagos
 ![Descripción](Screenshots/Payments.png)
 
+### 💳 Historico de prestamos
 ![Descripción](Screenshots/Records.png)
 
 ---
