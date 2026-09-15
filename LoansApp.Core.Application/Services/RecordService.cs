@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using LoansApp.Core.Application.DTOs.Loan;
 using LoansApp.Core.Application.DTOs.Record;
 using LoansApp.Core.Application.Interfaces.Repositories;
 using LoansApp.Core.Application.Interfaces.Services;
