@@ -1,7 +1,5 @@
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.DependencyInjection;
-using LoansApp.Infrastructure.Persistence;
 using LoansApp.Core.Application;
+using LoansApp.Infrastructure.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
 

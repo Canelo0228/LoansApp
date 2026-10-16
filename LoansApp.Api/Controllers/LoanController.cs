@@ -22,7 +22,7 @@ namespace LoansApp.Api.Controllers
             {
                 if (!string.IsNullOrEmpty(parameter) && !string.IsNullOrEmpty(parameterValue))
                 {
-                    var filteredLoans = await _loanService.GetAllWithFilter(parameter, parameterValue);
+                    var filteredLoans = await _loanService.GetAllWithFilterAsync(parameter, parameterValue);
                     return Ok(filteredLoans);
                 }
 
@@ -66,7 +66,7 @@ namespace LoansApp.Api.Controllers
             try
             {
                 await _loanService.AddAsync(createdLoan);
-                return CreatedAtRoute("GetLoanById", new { id = createdLoan.ID },createdLoan);
+                return CreatedAtRoute("GetLoanById", new { id = createdLoan.Id },createdLoan);
             }
             catch (Exception ex)
             {
@@ -83,7 +83,7 @@ namespace LoansApp.Api.Controllers
         {
             try
             {
-                if (id != saveLoan.ID)
+                if (id != saveLoan.Id)
                 {
                     return BadRequest("The ID provided in the URL does not match the id in the body");
                 }
@@ -114,7 +114,7 @@ namespace LoansApp.Api.Controllers
                 {
                     return NotFound();
                 }
-                await _loanService.DeleteAsync(loan.ID);
+                await _loanService.DeleteAsync(loan.Id);
                 return NoContent();
             }
             catch (Exception ex)

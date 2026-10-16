@@ -1,16 +1,18 @@
-﻿
+﻿using System.ComponentModel.DataAnnotations;
+
 namespace LoansApp.Core.Application.DTOs.Payment
 {
     public class SavePayment
     {
-        public int ID { get; set; }
-        public string Day { get; set; }
-        public string Month { get; set; }
-        public string Year { get; set; }
-        public int Amount { get; set; }
-        public string MonthDay { get; set; }
+        public int Id { get; set; }
+        
+        [Required]
+        public DateOnly Date { get; set; }
+        
+        [Required]
+        public decimal Amount { get; set; }
 
-
-        public int LoanID { get; set; }
+        [Required(ErrorMessage = "You need to select a loan to apply a payment for.")]
+        public int LoanId { get; set; }
     }
 }

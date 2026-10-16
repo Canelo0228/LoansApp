@@ -56,16 +56,15 @@ namespace LoansApp.UserControls
 
             SaveLoan saveLoan = new()
             {
-                ID = 0,
-                Name = name.Text.Trim(),
-                Number = number.Text.Trim(),
-                PayDay = payDay.Text.Trim(),
-                TotalIncome = totalIncome.Text.Trim(),
-                Interest = interest.Text.Trim(),
-                Capital = capital.Text.Trim(),
-                Value = value.Text.Trim(),
-                LoanBalance = value.Text.Trim(),
-                RemainingFees = fees.Text.Trim()
+                Id = 0,
+                CustomerName = name.Text.Trim(),
+                PaymentDay = int.Parse(payDay.Text.Trim()),
+                MonthlyPayment = decimal.Parse(totalIncome.Text.Trim()),
+                MonthlyInterest = decimal.Parse(interest.Text.Trim()),
+                MonthlyPrincipal = decimal.Parse(capital.Text.Trim()),
+                OriginalLoanAmount = decimal.Parse(value.Text.Trim()),
+                OutstandingBalance = decimal.Parse(value.Text.Trim()),
+                RemainingInstallments = int.Parse(fees.Text.Trim())
             };
 
             try
@@ -88,7 +87,7 @@ namespace LoansApp.UserControls
 
         private bool ValidateRequiredFields()
         {
-            var fields = new[] { name, number, payDay, fees, totalIncome, interest, capital };
+            var fields = new[] { name, payDay, fees, totalIncome, interest, capital };
             return fields.All(c => !string.IsNullOrWhiteSpace(c.Text.Trim()));
         }
 

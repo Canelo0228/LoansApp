@@ -5,7 +5,6 @@ using LoansApp.Core.Application.DTOs.Record;
 using LoansApp.Core.Application.Interfaces.Repositories;
 using LoansApp.Core.Application.Interfaces.Services;
 using LoansApp.Core.Domain.Entities;
-using System.Data;
 
 namespace LoansApp.Core.Application.Services
 {
@@ -28,7 +27,7 @@ namespace LoansApp.Core.Application.Services
         {
             Payment entity = _mapper.Map<Payment>(saveEntity);
             await base.AddAsync(saveEntity);
-            await _loanService.UpdateAsync(saveLoan, entity.LoanID);
+            await _loanService.UpdateAsync(saveLoan, entity.LoanId);
         }
 
         public async Task<List<ViewPayment>> GetByLoanIdAsync(int loanId)
@@ -39,71 +38,69 @@ namespace LoansApp.Core.Application.Services
 
         public async Task<bool> ApplyPaymentAsync(SavePayment saveEntity)
         {
-            var loan = await _loanService.GetByIdAsync(saveEntity.LoanID);
+            var loan = await _loanService.GetByIdAsync(saveEntity.LoanId);
+
             if (loan == null)
+                throw new InvalidOperationException("Loan not found.");
+
+            if (loan.OutstandingBalance <= 0 ||
+                loan.RemainingInstallments <= 0)
             {
-                throw new Exception("Loan not found");
+                throw new InvalidOperationException(
+                    "This loan cannot receive payments.");
             }
 
-            int loanBalance = int.Parse(loan.LoanBalance);
-            int capital = int.Parse(loan.Capital);
-            int remainingFees = int.Parse(loan.RemainingFees);
-            int interest = int.Parse(loan.Interest);
+            if (saveEntity.Amount != loan.MonthlyPayment)
+            {
+                throw new ArgumentException(
+                    "The payment must correspond to the full monthly installment.");
+            }
+
+            decimal newBalance = Math.Max(
+                0m,
+                loan.OutstandingBalance - loan.MonthlyPrincipal);
+
+            int newRemainingInstallments =
+                loan.RemainingInstallments - 1;
+
+            bool isFinalPayment =
+                newRemainingInstallments == 0 || newBalance == 0;
+
+            saveEntity.Date = DateOnly.FromDateTime(DateTime.UtcNow);
+
+            await _paymentRepository.AddAsync(
+                _mapper.Map<Payment>(saveEntity));
 
             var updatedLoan = _mapper.Map<SaveLoan>(loan);
-            updatedLoan.LoanBalance = (loanBalance - capital).ToString();
-            updatedLoan.RemainingFees = (remainingFees - 1).ToString();
 
-            saveEntity.MonthDay = $"{saveEntity.Day} / {saveEntity.Month}";
+            updatedLoan.OutstandingBalance = newBalance;
+            updatedLoan.RemainingInstallments =
+                newRemainingInstallments;
 
-            var existingPayments = await _paymentRepository.GetByLoanIdAsync(saveEntity.LoanID);
-
-            var record = new SaveRecord
-            {
-                Name = loan.Name,
-                loanNumber = loan.Number,
-                EndDate = DateTime.Now.ToShortDateString(),
-                MonthlyIncome = loan.TotalIncome,
-                MonthlyInterest = loan.Interest,
-                MonthlyCapital = loan.Capital,
-                LoanValue = loan.Value,
-                TotalInterestIncomes = (interest * (existingPayments.Count + 1)).ToString()
-            };
-
-            await _paymentRepository.AddAsync(_mapper.Map<Payment>(saveEntity));
-            await _loanService.UpdateAsync(updatedLoan, loan.ID);
-
-            bool isFinalPayment = int.Parse(updatedLoan.RemainingFees) <= 0 &&
-                           int.Parse(updatedLoan.LoanBalance) <= capital;
+            await _loanService.UpdateAsync(updatedLoan, loan.Id);
 
             if (isFinalPayment)
             {
+                var existingPayments =
+                    await _paymentRepository.GetByLoanIdAsync(loan.Id);
+
+                var record = new SaveRecord
+                {
+                    CustomerName = loan.CustomerName,
+                    EndDate = saveEntity.Date,
+                    MonthlyPayment = loan.MonthlyPayment,
+                    MonthlyInterest = loan.MonthlyInterest,
+                    MonthlyPrincipal = loan.MonthlyPrincipal,
+                    OriginalLoanAmount = loan.OriginalLoanAmount,
+                    TotalInterestIncome =
+                        loan.MonthlyInterest * existingPayments.Count
+                };
+
                 await _recordService.AddAsync(record);
-                await _loanService.DeleteAsync(loan.ID);
-                return true;
-            }
-            return false;
-        }
-
-        public DataTable MapPaymentsToDataTable(List<ViewPayment> payments)
-        {
-            DataTable table = new();
-            table.Columns.Add("Day", typeof(string));
-            table.Columns.Add("Month", typeof(string));
-            table.Columns.Add("Year", typeof(string));
-            table.Columns.Add("Amount", typeof(string));
-
-            foreach (var payment in payments)
-            {
-                table.Rows.Add(
-                    payment.Day,
-                    payment.Month,
-                    payment.Year,
-                    payment.Amount
-                );
+                await _loanService.DeleteAsync(loan.Id);
             }
 
-            return table;
+            return isFinalPayment;
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using LoansApp.Core.Application.DTOs.Loan;
 using LoansApp.Core.Application.Interfaces.Services;
+using System.Data;
 
 namespace LoansApp.UserControls
 {
@@ -21,7 +22,7 @@ namespace LoansApp.UserControls
             try
             {
                 var loans = await _loanService.GetAllAsync();
-                var data = _loanService.MapLoansToDataTable(loans);
+                var data = MapLoansToDataTable(loans);
                 dataGridView1.DataSource = data;
                 ConfigureDataGrid();
             }
@@ -41,10 +42,10 @@ namespace LoansApp.UserControls
             }
             try
             {
-                var loans = await _loanService.GetAllWithFilter(Parameter.Text, parameterValue.Text);
+                var loans = await _loanService.GetAllWithFilterAsync(Parameter.Text, parameterValue.Text);
                 if (loans != null && loans.Any())
                 {
-                    var data = _loanService.MapLoansToDataTable(loans);
+                    var data = MapLoansToDataTable(loans);
                     dataGridView1.DataSource = data;
                     ConfigureDataGrid();
                 }
@@ -73,7 +74,7 @@ namespace LoansApp.UserControls
             if (loan != null)
             {
                 var result = MessageBox.Show(
-                    $"Are you sure you want to delete {loan.Name}'s loan with a value of RD${loan.Value}?\n" +
+                    $"Are you sure you want to delete {loan.CustomerName}'s loan with a value of RD${loan.OriginalLoanAmount}?\n" +
                     "This action cannot be undone.",
                     "Confirm Delection",
                     MessageBoxButtons.OKCancel,
@@ -84,7 +85,7 @@ namespace LoansApp.UserControls
                 {
                     try
                     {
-                        await _loanService.DeleteAsync(loan.ID);
+                        await _loanService.DeleteAsync(loan.Id);
                         await GetData();
                     }
                     catch (Exception ex)
@@ -103,7 +104,7 @@ namespace LoansApp.UserControls
         {
             var selectedRow = dataGridView1.CurrentRow;
 
-            if (selectedRow == null || selectedRow.Index < 0 || selectedRow.Cells["ID"].Value == null)
+            if (selectedRow == null || selectedRow.Index < 0 || selectedRow.Cells["Id"].Value == null)
             {
                 MessageBox.Show("No row is selected or the grid is empty.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return null;
@@ -113,16 +114,15 @@ namespace LoansApp.UserControls
             {
                 return new SaveLoan
                 {
-                    ID = int.Parse(selectedRow.Cells["ID"].Value?.ToString() ?? "0"),
-                    Name = selectedRow.Cells["Name"].Value?.ToString(),
-                    Number = selectedRow.Cells["Number"].Value?.ToString(),
-                    PayDay = selectedRow.Cells["PayDay"].Value?.ToString(),
-                    TotalIncome = selectedRow.Cells["Monthly Income"].Value?.ToString(),
-                    Interest = selectedRow.Cells["Interest"].Value?.ToString(),
-                    Capital = selectedRow.Cells["Capital"].Value?.ToString(),
-                    Value = selectedRow.Cells["Value"].Value?.ToString(),
-                    LoanBalance = selectedRow.Cells["Loan Balance"].Value?.ToString(),
-                    RemainingFees = selectedRow.Cells["Remaining Fees"].Value?.ToString()
+                    Id = int.Parse(selectedRow.Cells["Id"].Value?.ToString() ?? "0"),
+                    CustomerName = selectedRow.Cells["Customer Name"].Value?.ToString(),
+                    PaymentDay = int.Parse(selectedRow.Cells["Payment Day"].Value?.ToString() ?? "0"),
+                    MonthlyPayment = decimal.Parse(selectedRow.Cells["Monthly Income"].Value?.ToString()),
+                    MonthlyInterest = decimal.Parse(selectedRow.Cells["Monthly Interest"].Value?.ToString()),
+                    MonthlyPrincipal = decimal.Parse(selectedRow.Cells["Monthly Principal"].Value?.ToString()),
+                    OriginalLoanAmount = decimal.Parse(selectedRow.Cells["Value"].Value?.ToString()),
+                    OutstandingBalance = decimal.Parse(selectedRow.Cells["Loan Balance"].Value?.ToString()),
+                    RemainingInstallments = int.Parse(selectedRow.Cells["Remaining Fees"].Value?.ToString())
                 };
             }
             catch (Exception ex)
@@ -135,10 +135,40 @@ namespace LoansApp.UserControls
         //Private Methods
         private void ConfigureDataGrid()
         {
-
             dataGridView1.Font = new Font("Arial", 12);
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridView1.ScrollBars = ScrollBars.Vertical;
+        }
+
+        public DataTable MapLoansToDataTable(List<ViewLoan> loans)
+        {
+            DataTable table = new();
+            table.Columns.Add("Id", typeof(int));
+            table.Columns.Add("Customer Name", typeof(string));
+            table.Columns.Add("Payment Day", typeof(int));
+            table.Columns.Add("Monthly Income", typeof(decimal));
+            table.Columns.Add("Monthly Interest", typeof(decimal));
+            table.Columns.Add("Monthly Principal", typeof(decimal));
+            table.Columns.Add("Value", typeof(decimal));
+            table.Columns.Add("Loan Balance", typeof(decimal));
+            table.Columns.Add("Remaining Fees", typeof(int));
+
+            foreach (var loan in loans)
+            {
+                table.Rows.Add(
+                    loan.Id,
+                    loan.CustomerName,
+                    loan.PaymentDay,
+                    loan.MonthlyPayment,
+                    loan.MonthlyInterest,
+                    loan.MonthlyPrincipal,
+                    loan.OriginalLoanAmount,
+                    loan.OutstandingBalance,
+                    loan.RemainingInstallments
+                );
+            }
+
+            return table;
         }
     }
 }

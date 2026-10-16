@@ -17,15 +17,12 @@ namespace LoansApp.Infrastructure.Persistence.Repositories
 
         public virtual async Task<List<Loan>> GetAllAsync(Expression<Func<Loan, bool>> filter)
         {
-            if (filter != null)
-            {
-                return await _dbContext.Set<Loan>().Where(filter).ToListAsync();
-            }
-            else
-            {
-                return await GetAllAsync();
-            }
-        }
+            var query = _dbContext.Set<Loan>().AsQueryable();
 
+            if (filter != null)
+                query = query.Where(filter);
+
+            return await query.ToListAsync();
+        }
     }
 }

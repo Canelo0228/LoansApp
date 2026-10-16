@@ -9,22 +9,6 @@ namespace LoansApp.Infrastructure.Persistence.Repositories
     {
         private readonly ApplicationContext _dbContext;
 
-        Dictionary<string, int> monthlyOrder = new Dictionary<string, int>
-        {
-            ["January"] = 1,
-            ["February"] = 2,
-            ["March"] = 3,
-            ["April"] = 4,
-            ["May"] = 5,
-            ["June"] = 6,
-            ["July"] = 7,
-            ["August"] = 8,
-            ["September"] = 9,
-            ["October"] = 10,
-            ["November"] = 11,
-            ["December"] = 12
-        };
-
         public PaymentRepository(ApplicationContext dbContext) : base(dbContext)
         {
             _dbContext = dbContext;
@@ -33,13 +17,11 @@ namespace LoansApp.Infrastructure.Persistence.Repositories
         public virtual async Task<List<Payment>> GetByLoanIdAsync(int loanId)
         {
             var payments =  await _dbContext.Set<Payment>()
-                .Where(l => l.LoanID == loanId)
+                .Where(l => l.LoanId == loanId)
                 .ToListAsync();
 
             var order = payments
-                .OrderByDescending(l => l.Year)
-                .ThenByDescending(l => monthlyOrder[l.Month])
-                .ThenBy(l => l.Day)
+                .OrderByDescending(l => l.Date)
                 .ToList();
 
             return order;

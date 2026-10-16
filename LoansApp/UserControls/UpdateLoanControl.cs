@@ -58,27 +58,26 @@ namespace LoansApp.UserControls
             }
 
             var result = MessageBox.Show(
-                    $"Are you sure you want to update {name.Text}'s Loan, number {number.Text}, which has a value of RD${value.Text}?\n" +
+                    $"Are you sure you want to update {name.Text}'s Loan, which has a value of RD${value.Text}?\n" +
                     "This cannot be undone.",
                     "Confirm update.",
                     MessageBoxButtons.OKCancel,
                     MessageBoxIcon.Warning
                 );
 
-                _saveLoan.Name = name.Text.Trim();
-                _saveLoan.Number = number.Text.Trim();
-                _saveLoan.PayDay = payDay.Text.Trim();
-                _saveLoan.TotalIncome = totalIncome.Text.Trim();
-                _saveLoan.Interest = interest.Text.Trim();
-                _saveLoan.Capital = capital.Text.Trim();
-                _saveLoan.Value = value.Text.Trim();
-                _saveLoan.RemainingFees = fees.Text.Trim();
+            _saveLoan.CustomerName = name.Text.Trim();
+            _saveLoan.PaymentDay = int.Parse(payDay.Text.Trim());
+            _saveLoan.MonthlyPayment = int.Parse(totalIncome.Text.Trim());
+            _saveLoan.MonthlyInterest = int.Parse(interest.Text.Trim());
+            _saveLoan.MonthlyPrincipal = int.Parse(capital.Text.Trim());
+            _saveLoan.OriginalLoanAmount = int.Parse(value.Text.Trim());
+            _saveLoan.RemainingInstallments = int.Parse(fees.Text.Trim());
 
             if (result == DialogResult.OK)
             {
                 try
                 {
-                    await _loanService.UpdateAsync(_saveLoan, _saveLoan.ID);
+                    await _loanService.UpdateAsync(_saveLoan, _saveLoan.Id);
                     MessageBox.Show("Successfully updated Loan");
                     await _form.ShowView(_home);
 
@@ -102,20 +101,19 @@ namespace LoansApp.UserControls
 
         private bool ValidateRequiredFields()
         {
-            var fields = new[] { name, number, payDay, fees, totalIncome, interest, capital };
+            var fields = new[] { name, payDay, fees, totalIncome, interest, capital };
             return fields.All(c => !string.IsNullOrWhiteSpace(c.Text.Trim()));
         }
 
         private void LoadData()
         {
-            name.Text = _saveLoan.Name;
-            number.Text = _saveLoan.Number;
-            payDay.Text = _saveLoan.PayDay;
-            totalIncome.Text = _saveLoan.TotalIncome;
-            interest.Text = _saveLoan.Interest;
-            capital.Text = _saveLoan.Capital;
-            value.Text = _saveLoan.Value;
-            fees.Text = _saveLoan.RemainingFees;
+            name.Text = _saveLoan.CustomerName;
+            payDay.Text = _saveLoan.PaymentDay.ToString();
+            totalIncome.Text = _saveLoan.MonthlyPayment.ToString();
+            interest.Text = _saveLoan.MonthlyInterest.ToString();
+            capital.Text = _saveLoan.MonthlyPrincipal.ToString();
+            value.Text = _saveLoan.OriginalLoanAmount.ToString();
+            fees.Text = _saveLoan.RemainingInstallments.ToString();
         }
 
         private void ShowWarning(string message)
@@ -160,5 +158,9 @@ namespace LoansApp.UserControls
             CalculateFees(sender, e);
         }
 
+        private void label6_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

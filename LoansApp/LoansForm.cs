@@ -90,10 +90,5 @@ namespace LoansApp
                 existingView.BringToFront();
             }
         }
-        
-        private void ShowWarning(string message)
-        {
-            MessageBox.Show(message, "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-        }
     }
 }
